@@ -54,11 +54,15 @@ const { post }: any = Astro.props;
 
 <div>
   <h1>{post.title}</h1>
-  <img
-    src={post.featuredImage.node.mediaItemUrl}
-    alt={post.featuredImage.node.altText}
-    srcset={post.featuredImage.node.srcSet}
-    sizes={post.featuredImage.node.sizes}
-  />
+  {
+    post.featuredImage.node && (
+      <img
+        src={post.featuredImage.node.mediaItemUrl}
+        alt={post.featuredImage.node.altText}
+        srcset={post.featuredImage.node.srcSet}
+        sizes={post.featuredImage.node.sizes}
+      />
+    )
+  }
   <Fragment set:html={post.content} />
 </div>

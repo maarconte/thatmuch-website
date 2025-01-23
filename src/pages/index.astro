@@ -41,10 +41,12 @@ const data = await wpquery({
       return (
         <div>
           <h2>{post.title}</h2>
-          <img
-            src={post.featuredImage.node.mediaItemUrl}
-            alt={post.featuredImage.node.altText}
-          />
+          {post.featuredImage.node && (
+            <img
+              src={post.featuredImage.node.mediaItemUrl}
+              alt={post.featuredImage.node.altText}
+            />
+          )}
           <Fragment set:html={post.excerpt} />
           <p>Author: {post.author.node.name}</p>
           <a href={`/blog/${post.slug}`}>Read more</a>
