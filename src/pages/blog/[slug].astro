@@ -55,7 +55,7 @@ const { post }: any = Astro.props;
 <div>
   <h1>{post.title}</h1>
   {
-    post.featuredImage.node && (
+    post?.featuredImage?.node && (
       <img
         src={post.featuredImage.node.mediaItemUrl}
         alt={post.featuredImage.node.altText}
