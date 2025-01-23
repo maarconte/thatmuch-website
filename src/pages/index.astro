@@ -1,0 +1,55 @@
+---
+import { wpquery } from "../data/wordpress";
+
+const data = await wpquery({
+  query: `
+      query getAllPosts {
+        posts {
+          nodes {
+            slug
+            title
+            featuredImage {
+              node {
+                altText
+                mediaItemUrl
+                sizes
+                srcSet
+              }
+            }
+            content(format: RENDERED)
+            author {
+              node {
+                name
+              }
+            }
+          }
+        }
+        categories {
+          nodes {
+            slug
+            name
+          }
+        }
+      }
+	`,
+});
+---
+
+<div>
+  {
+    data.posts.nodes.map((post: any) => {
+      return (
+        <div>
+          <h2>{post.title}</h2>
+          <img
+            src={post.featuredImage.node.mediaItemUrl}
+            alt={post.featuredImage.node.altText}
+          />
+          <Fragment set:html={post.excerpt} />
+          <p>Author: {post.author.node.name}</p>
+          <a href={`/blog/${post.slug}`}>Read more</a>
+        </div>
+      );
+    })
+  }
+</div>

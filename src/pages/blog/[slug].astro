@@ -1,0 +1,64 @@
+---
+import { Image } from "astro:assets";
+
+import BlogPost from "@/layouts/blog-post.astro";
+import { getCollection } from "astro:content";
+
+import Code from "@/components/mdx/code.astro";
+
+import { formatDate, getUniqueTags } from "@/lib/utils";
+import { siteConfig } from "@/site.config";
+import { wpquery } from "@/data/wordpress";
+export async function getStaticPaths() {
+  const data = await wpquery({
+    query: `
+      query getAllPosts {
+        posts {
+          nodes {
+            slug
+            title
+            featuredImage {
+              node {
+                altText
+                mediaItemUrl
+                sizes
+                srcSet
+              }
+            }
+            content(format: RENDERED)
+            author {
+              node {
+                name
+              }
+            }
+          }
+        }
+        categories {
+          nodes {
+            slug
+            name
+          }
+        }
+      }
+	`,
+  });
+
+  return data.posts.nodes.map((post: any) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post }: any = Astro.props;
+---
+
+<div>
+  <h1>{post.title}</h1>
+  <img
+    src={post.featuredImage.node.mediaItemUrl}
+    alt={post.featuredImage.node.altText}
+    srcset={post.featuredImage.node.srcSet}
+    sizes={post.featuredImage.node.sizes}
+  />
+  <Fragment set:html={post.content} />
+</div>
