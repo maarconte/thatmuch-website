@@ -1,18 +1,19 @@
 ---
-import { siteConfig } from "@/site.config"
+import { siteConfig } from "@/site.config";
 
 export interface Props {
-  author: string
-  description: string
-  title: string
-  slug?: string
-  ogImage?: string
+  author: string;
+  description: string;
+  title: string;
+  slug?: string;
+  ogImage?: string;
 }
 
-const { author, description, ogImage, title } = Astro.props
+const { author, description, ogImage, title } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site)
-const socialImageURL = new URL(ogImage ? ogImage : "/open-graph.jpg", Astro.url).href
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL(ogImage ? ogImage : "/open-graph.jpg", Astro.url)
+  .href;
 ---
 
 <!-- Global Metadata -->
@@ -38,7 +39,7 @@ const socialImageURL = new URL(ogImage ? ogImage : "/open-graph.jpg", Astro.url)
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property='og:image' content={socialImageURL} />
+<meta property="og:image" content={socialImageURL} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content={title} />
@@ -54,7 +55,16 @@ const socialImageURL = new URL(ogImage ? ogImage : "/open-graph.jpg", Astro.url)
 <meta name="twitter:image:alt" content={title} />
 
 <!-- RSS auto-discovery -->
-<link rel="alternate" type="application/rss+xml" title={siteConfig.title} href="/rss.xml" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={siteConfig.title}
+  href="/rss.xml"
+/>
 
 <!-- Sitemap -->
 <link rel="sitemap" href="/sitemap-index.xml" />
+<meta
+  name="google-site-verification"
+  content="WXg-Si4LOIUuT53Q-81pskD9mA8wyGZBdMmK9op4VfI"
+/>
