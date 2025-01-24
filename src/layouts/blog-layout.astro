@@ -1,18 +1,18 @@
 ---
-import Footer from "@/components/footer.astro"
-import Header from "@/components/header.astro"
-import Metadata from "@/components/metadata.astro"
+import Footer from "@/components/footer.astro";
+import Header from "@/components/header.astro";
+import Metadata from "@/components/metadata.astro";
 
-import { ViewTransitions } from "astro:transitions"
+import { ViewTransitions } from "astro:transitions";
 
 interface Props {
-  author: string
-  description: string
-  title: string
-  slug?: string
+  author: string;
+  description: string;
+  title: string;
+  slug?: string;
 }
 
-const { author, description, slug, title } = Astro.props
+const { author, description, slug, title } = Astro.props;
 ---
 
 <!doctype html>
@@ -26,20 +26,15 @@ const { author, description, slug, title } = Astro.props
     />
     <ViewTransitions />
   </head>
-  <body class="bg-gray-placebo">
+  <body class="">
+    <Header />
     <div class="container flex flex-col min-h-screen">
-      <div class="rounded-lg border border-gray-colossus shadow-lg bg-white my-6">
-        <Header />
-        <div class="flex gap-x-10 mx-5 mt-7">
-          <main class="w-[30rem]">
-            <slot name="posts" />
-          </main>
-          <aside class="w-48">
-            <slot name="aside" />
-          </aside>
-        </div>
-        <Footer />
+      <div class="">
+        <main class="">
+          <slot name="posts" />
+        </main>
       </div>
     </div>
+    <Footer />
   </body>
 </html>
