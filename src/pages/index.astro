@@ -34,12 +34,14 @@ const data = await wpquery({
       }
 	`,
 });
+
+const title = `${siteConfig.title} - Marconte !`;
 ---
 
 <BlogLayout
   author={siteConfig.author}
   description={siteConfig.description}
-  title="Blog"
+  title="Le blog de l'équipage"
 >
   <section slot="posts">
     {
