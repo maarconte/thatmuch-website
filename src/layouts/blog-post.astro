@@ -1,21 +1,20 @@
 ---
+import Footer from "@/components/footer.astro";
+import Header from "@/components/header.astro";
+import Metadata from "@/components/metadata.astro";
+import PostPagination from "@/components/post-pagination.astro";
 
-import Footer from "@/components/footer.astro"
-import Header from "@/components/header.astro"
-import Metadata from "@/components/metadata.astro"
-import PostPagination from "@/components/post-pagination.astro"
-
-import { ViewTransitions } from "astro:transitions"
+import { ViewTransitions } from "astro:transitions";
 
 interface Props {
-  author: string
-  description: string
-  title: string
-  slug?: string
-  image?: string
+  author: string;
+  description: string;
+  title: string;
+  slug?: string;
+  image?: string;
 }
 
-const { author, image, description, slug, title } = Astro.props
+const { author, image, description, slug, title } = Astro.props;
 ---
 
 <!doctype html>
@@ -30,22 +29,20 @@ const { author, image, description, slug, title } = Astro.props
     />
     <ViewTransitions />
   </head>
-  <body class="bg-gray-placebo">
+  <body class="">
     <div class="container flex flex-col min-h-screen">
-      <div class="rounded-lg border border-gray-colossus shadow-lg bg-white my-6">
-        <Header />
-        {slug && (
-          <div class="w-2/3 container mt-5 mb-6">
-            <PostPagination slug={slug} />
-          </div>
+      <Header />
+      <article class="w-2/3 container mb-8">
+        {
+          slug && (
+            <h1 class="font-bold font-trebuchet text-xl text-gray-carbon">
+              {title}
+            </h1>
           )
         }
-        <article class="w-2/3 container mb-8">
-          {slug && <h2 class="font-bold font-trebuchet text-xl text-gray-carbon">{title}</h2> }
-          <slot />
-        </article>
-        <Footer />
-      </div>
+        <slot />
+      </article>
+      <Footer />
     </div>
   </body>
 </html>

@@ -12,34 +12,37 @@ import { wpquery } from "@/data/wordpress";
 export async function getStaticPaths() {
   const data = await wpquery({
     query: `
-      query getAllPosts {
-        posts {
-          nodes {
-            slug
-            title
-            featuredImage {
-              node {
-                altText
-                mediaItemUrl
-                sizes
-                srcSet
-              }
-            }
-            content(format: RENDERED)
-            author {
-              node {
-                name
-              }
-            }
-          }
-        }
-        categories {
-          nodes {
-            slug
-            name
-          }
+query getAllPosts {
+  posts {
+    nodes {
+      slug
+      title
+      featuredImage {
+        node {
+          altText
+          mediaItemUrl
+          sizes
+          srcSet
         }
       }
+      content(format: RENDERED)
+      author {
+        node {
+          name
+        }
+      }
+      seo {
+        metaDesc
+      }
+    }
+  }
+  categories {
+    nodes {
+      name
+      link
+    }
+  }
+}
 	`,
   });
 
@@ -50,10 +53,16 @@ export async function getStaticPaths() {
 }
 
 const { post }: any = Astro.props;
+const { title, author, seo } = post;
+const { metaDesc } = seo;
 ---
 
-<div>
-  <h1>{post.title}</h1>
+<BlogPost
+  author={author.name}
+  description={metaDesc}
+  slug={post.slug}
+  title={title}
+>
   {
     post?.featuredImage?.node && (
       <img
@@ -65,4 +74,4 @@ const { post }: any = Astro.props;
     )
   }
   <Fragment set:html={post.content} />
-</div>
+</BlogPost>
