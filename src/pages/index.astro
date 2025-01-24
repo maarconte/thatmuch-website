@@ -1,6 +1,7 @@
 ---
+import BlogLayout from "@/layouts/blog-layout.astro";
 import { wpquery } from "../data/wordpress";
-
+import { siteConfig } from "@/site.config";
 const data = await wpquery({
   query: `
       query getAllPosts {
@@ -33,9 +34,15 @@ const data = await wpquery({
       }
 	`,
 });
+
+const title = `${siteConfig.title} - Marconte !`;
 ---
 
-<div>
+<BlogLayout
+  author={siteConfig.author}
+  description="Oops! It looks like this page is lost in space!"
+  title={title}
+>
   {
     data.posts.nodes.map((post: any) => {
       return (
@@ -54,4 +61,4 @@ const data = await wpquery({
       );
     })
   }
-</div>
+</BlogLayout>
