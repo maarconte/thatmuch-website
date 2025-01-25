@@ -1,8 +1,8 @@
 ---
-import type { GetStaticPathsOptions, Page } from "astro"
-import { Image } from "astro:assets"
-import type { CollectionEntry } from "astro:content"
-import { getCollection } from "astro:content"
+import type { GetStaticPathsOptions, Page } from "astro";
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
 
 import {
   formatDate,
@@ -11,41 +11,41 @@ import {
   sluglify,
   sortPostsDate,
   unsluglify,
-} from "@/lib/utils"
-import { siteConfig } from "@/site.config"
+} from "@/lib/utils";
+import { siteConfig } from "@/site.config";
 
-import Sidebar from "@/components/sidebar.astro"
-import BlogLayout from "@/layouts/blog-layout.astro"
+import Sidebar from "@/components/sidebar.astro";
+import BlogLayout from "@/layouts/blog-layout.astro";
 
 interface Props {
-  page: Page<CollectionEntry<"blog">>
-  tags: string[]
-  categories: string[]
+  page: Page<CollectionEntry<"blog">>;
+  tags: string[];
+  categories: string[];
 }
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-  const posts = await getCollection("blog")
-  const sortedPosts = sortPostsDate(posts)
-  const categories = getUniqueCategories(posts)
-  const tags = getUniqueTags(posts)
+  const posts = await getCollection("blog");
+  const sortedPosts = sortPostsDate(posts);
+  const categories = getUniqueCategories(posts);
+  const tags = getUniqueTags(posts);
 
-  return categories.flatMap(category => {
-    const unsluglifyNameCategory = unsluglify(category.toLowerCase())
+  return categories.flatMap((category) => {
+    const unsluglifyNameCategory = unsluglify(category.toLowerCase());
 
     const filterPosts = sortedPosts.filter(
-      post => post.data.category.toLowerCase() === unsluglifyNameCategory
-    )
+      (post) => post.data.category.toLowerCase() === unsluglifyNameCategory
+    );
 
     return paginate(filterPosts, {
       props: { categories, tags },
       params: { category: sluglify(category.toLowerCase()) },
       pageSize: 20,
-    })
-  })
+    });
+  });
 }
 
-const { page, tags, categories } = Astro.props
-const { category } = Astro.params
+const { page, tags, categories } = Astro.props;
+const { category } = Astro.params;
 ---
 
 <BlogLayout
@@ -53,37 +53,58 @@ const { category } = Astro.params
   description=`Archive for the ${category} Category`
   title=`${siteConfig.title} - Category ${category}`
 >
-<section slot="posts">
-    <h2 class="font-trebuchet text-xl font-bold text-center">Archive for the '{category}' Category</h2>
+  <section slot="posts">
+    <h2 class="font-trebuchet text-xl font-bold text-center">
+      Archive for the '{category}' Category
+    </h2>
     {
-      page.data.map(({ slug, data: { category, heroImage, title, pubDate, tags } }) => (
-        <article class="mb-10">
-          <h2 class="font-bold font-trebuchet text-xl text-gray-carbon">
-            <a href={`/blog/${slug}/`}>{title}</a>
-          </h2>
-          <p class="font-arial text-xs text-gray-lucky">
-            <time datetime={pubDate.toISOString()}>{formatDate(pubDate, 'short')}</time>
-          </p>
-          {heroImage && <Image width={720} height={360} src={heroImage} alt="" />}
-          <div class="my-3">
-            <p class="flex justify-center font-lucida text-xs">
-              <span class="mr-1 text-gray-lucky">Tags:</span> {
-                tags?.map((tag, index) => (
-                  <span >
-                    <a class="text-blue-french hover:text-blue-maritime hover:underline" href={`/tags/${tag}`}>{tag}</a>{index < tags.length - 1 && ', '}
+      page.data.map(
+        ({ slug, data: { category, heroImage, title, pubDate, tags } }) => (
+          <article class="mb-10">
+            <h2 class="font-bold font-trebuchet text-xl text-gray-carbon">
+              <a href={`/blog/${slug}/`}>{title}</a>
+            </h2>
+            <p class="text-xs text-gray-lucky">
+              <time datetime={pubDate.toISOString()}>
+                {formatDate(pubDate, "short")}
+              </time>
+            </p>
+            {heroImage && (
+              <Image width={720} height={360} src={heroImage} alt="" />
+            )}
+            <div class="my-3">
+              <p class="flex justify-center font-lucida text-xs">
+                <span class="mr-1 text-gray-lucky">Tags:</span>{" "}
+                {tags?.map((tag, index) => (
+                  <span>
+                    <a
+                      class="text-blue-french hover:text-blue-maritime hover:underline"
+                      href={`/tags/${tag}`}
+                    >
+                      {tag}
+                    </a>
+                    {index < tags.length - 1 && ", "}
                   </span>
-                ))
-              }
-            </p>
-            <p class="flex justify-center font-lucida text-xs">
-              <span class="mr-1 text-gray-lucky">Posted in</span><a class="text-blue-french hover:text-blue-maritime hover:underline" href={`/category/${category}`}>{category}</a>
-            </p>
-          </div>
-        </article>
-      ))
+                ))}
+              </p>
+              <p class="flex justify-center font-lucida text-xs">
+                <>
+                  <span class="mr-1 text-gray-lucky">Posted in</span>
+                  <a
+                    class="text-blue-french hover:text-blue-maritime hover:underline"
+                    href={`/category/${category}`}
+                  >
+                    {category}
+                  </a>
+                </>
+              </p>
+            </div>
+          </article>
+        )
+      )
     }
   </section>
   <div slot="aside">
-    <Sidebar tags={tags} categories={categories} searchString={category}>
-  </div>
-</BlogLayout>
+    <Sidebar tags={tags} categories={categories} searchString={category} />
+  </div></BlogLayout
+>

@@ -1,68 +1,112 @@
 ---
-import { sluglify } from "@/lib/utils"
-import { getCollection } from "astro:content"
+import { sluglify } from "@/lib/utils";
+import { getCollection } from "astro:content";
 
-import { BLOGROLL } from "@/site.config"
+import { BLOGROLL } from "@/site.config";
 
-const pages = await getCollection("page")
+const pages = await getCollection("page");
 
 interface Props {
-  tags: string[]
-  categories: string[]
-  searchString?: string
+  tags: string[];
+  categories: string[];
+  searchString?: string;
 }
 
-const { searchString, tags, categories } = Astro.props
+const { searchString, tags, categories } = Astro.props;
 ---
+
 <div class="flex flex-col gap-y-4">
- {searchString && <p class="text-xs font-trebuchet">You are currently browsing the archives for this topic: {searchString}.</p> }
- {pages && (
+  {
+    searchString && (
+      <p class="text-xs font-trebuchet">
+        You are currently browsing the archives for this topic: {searchString}.
+      </p>
+    )
+  }
+  {
+    pages && (
       <div>
-          <h2 class="font-lucida text-xs font-bold">Pages</h2>
-          <ul class="flex flex-col ml-3 mt-1 leading-3">
-              {pages.map((page) => (
-                  <li>
-                      <span class="text-gray-lucky text-[0.75rem] mr-1">&raquo;</span><a class="text-blue-french hover:text-blue-maritime hover:underline text-xs font-lucida" href={`/page/${page.slug}/`}>{page.data.title}</a>
-                  </li>
-              ))}
-          </ul>
+        <h2 class="text-xs font-bold">Pages</h2>
+        <ul class="flex flex-col ml-3 mt-1 leading-3">
+          {pages.map((page) => (
+            <li>
+              <span class="text-gray-lucky text-[0.75rem] mr-1">&raquo;</span>
+              <a
+                class="text-blue-french hover:text-blue-maritime hover:underline text-xs"
+                href={`/page/${page.slug}/`}
+              >
+                {page.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
-  )
-}
+    )
+  }
   <div>
     <h2 class="font-lucida text-xs font-bold">Tags</h2>
     <ul class="flex flex-col ml-3 mt-1 leading-3">
-      {tags.map((tag: string) => (
-        <li>
-          <span class="text-gray-lucky text-[0.75rem] mr-1">&raquo;</span><a class="text-blue-french hover:text-blue-maritime hover:underline text-xs font-lucida" href={`/tags/${tag}`}>{tag}</a>
-        </li>
-      ))}
+      {
+        tags.map((tag: string) => (
+          <li>
+            <>
+              <span class="text-gray-lucky text-[0.75rem] mr-1">&raquo;</span>
+              <a
+                class="text-blue-french hover:text-blue-maritime hover:underline text-xs font-lucida"
+                href={`/tags/${tag}`}
+              >
+                {tag}
+              </a>
+            </>
+          </li>
+        ))
+      }
     </ul>
   </div>
   <div>
     <h2 class="font-lucida text-xs font-bold">Categories</h2>
     <ul class="flex flex-col ml-3 mt-1 leading-3">
-      {categories.map((category: string) => {
-        const sluglifyNameCategory = sluglify(category).toLowerCase()
+      {
+        categories.map((category: string) => {
+          const sluglifyNameCategory = sluglify(category).toLowerCase();
 
-        return (
-          <li>
-            <span class="text-gray-lucky text-[0.75rem] mr-1">&raquo;</span><a class="text-blue-french hover:text-blue-maritime hover:underline text-xs font-lucida" href={`/category/${sluglifyNameCategory}`}>{category}</a>
-          </li>
-        )
-      })}
+          return (
+            <li>
+              <>
+                <span class="text-gray-lucky text-[0.75rem] mr-1">&raquo;</span>
+                <a
+                  class="text-blue-french hover:text-blue-maritime hover:underline text-xs font-lucida"
+                  href={`/category/${sluglifyNameCategory}`}
+                >
+                  {category}
+                </a>
+              </>
+            </li>
+          );
+        })
+      }
     </ul>
   </div>
-  {BLOGROLL && (
-    <div>
-      <h2 class="font-lucida text-xs font-bold">Blogroll</h2>
-      <ul class="flex flex-col ml-3 mt-1 leading-3">
-        {BLOGROLL.map((blog) => (
-          <li>
-            <span class="text-gray-lucky text-[0.75rem] mr-1">&raquo;</span><a class="text-blue-french hover:text-blue-maritime hover:underline text-xs font-lucida" href={blog.url} target="_blank" rel="noreferrer">{blog.title}</a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )}
+  {
+    BLOGROLL && (
+      <div>
+        <h2 class="font-lucida text-xs font-bold">Blogroll</h2>
+        <ul class="flex flex-col ml-3 mt-1 leading-3">
+          {BLOGROLL.map((blog) => (
+            <li>
+              <span class="text-gray-lucky text-[0.75rem] mr-1">&raquo;</span>
+              <a
+                class="text-blue-french hover:text-blue-maritime hover:underline text-xs font-lucida"
+                href={blog.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {blog.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
 </div>

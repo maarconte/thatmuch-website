@@ -1,23 +1,25 @@
 ---
-import { sortPostsDate } from "@/lib/utils"
-import { getCollection } from "astro:content"
+import { sortPostsDate } from "@/lib/utils";
+import { getCollection } from "astro:content";
 
-const posts = await getCollection("blog")
-const sortedPosts = sortPostsDate(posts)
+const posts = await getCollection("blog");
+const sortedPosts = sortPostsDate(posts);
 
 interface Props {
-  slug: string
+  slug: string;
 }
 
-const { slug } = Astro.props
+const { slug } = Astro.props;
 
-const cleanSlug = slug.replace("/", "")
+const cleanSlug = slug.replace("/", "");
 
-const currentIndex = sortedPosts.findIndex(post => cleanSlug === post.slug)
+const currentIndex = sortedPosts.findIndex((post) => cleanSlug === post.slug);
 
-const nextPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null
-const prevPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null
+const nextPost =
+  currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+const prevPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
 ---
+
 <nav aria-label="page navigation" class="flex flex-row gap-x-4 w-full">
   {
     nextPost && (
@@ -25,7 +27,7 @@ const prevPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null
         <span class="text-gray-lucky text-[0.75rem]">&laquo;</span>
         <a
           href={`/blog/${nextPost.slug}/`}
-          class="text-left grow text-blue-french hover:text-blue-maritime hover:underline font-lucida text-xs"
+          class="text-left grow text-blue-french hover:text-blue-maritime hover:underline  text-xs"
         >
           {nextPost.data.title}
         </a>
@@ -37,7 +39,7 @@ const prevPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null
       <div class="grow text-right">
         <a
           href={`/blog/${prevPost.slug}/`}
-          class=" text-blue-french hover:text-blue-maritime hover:underline font-lucida text-xs"
+          class=" text-blue-french hover:text-blue-maritime hover:underline text-xs"
         >
           {prevPost.data.title}
         </a>

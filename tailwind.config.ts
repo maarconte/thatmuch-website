@@ -29,7 +29,8 @@ const config: Config = {
     fontFamily: {
       trebuchet: ['Trebuchet MS', 'Lucida Grande', 'Verdana', 'Arial', 'Sans-Serif'],
       lucida: ['Lucida Grande', 'Verdana', 'Arial', 'Sans-Serif'],
-      arial: ['Arial', 'Helvetica', 'sans-serif']
+      arial: ['SpaceMono', 'Helvetica', 'sans-serif'],
+      sans: ['SpaceMono']
     },
     extend: {},
   },
