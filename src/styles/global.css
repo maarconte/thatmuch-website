@@ -1,18 +1,25 @@
 @import "variables.css";
 @import "fonts.css";
 
+@import "./atoms/atoms.css";
 
-  body {
-    font-family: "SpaceMono", sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
-    background-color: var(--background);
-    color: var(--text-color-default);
-  }
+body {
+  font-family: "SpaceMono", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: var(--background);
+  color: var(--text-color-default);
+}
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: "NeueMachina", sans-serif;
-    font-weight: 700;
-    margin: 0;
-  }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "NeueMachina", sans-serif;
+  font-weight: 700;
+  margin: 0;
+}
+
 

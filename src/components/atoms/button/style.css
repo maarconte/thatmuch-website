@@ -1,0 +1,20 @@
+.btn {
+  display: inline-flex;
+  height: 2.75rem;
+  padding: var(--spacing-s, 1rem);
+  align-items: center;
+  gap: var(--spacing-xs, 0.5rem);
+  border-radius: var(--radius-s, 0.25rem);
+  background: var(--text-default, #1e1244);
+  transition: background 0.2s ease;
+
+  /* Label/Button */
+  font-size: var(--font-size-s, 0.875rem);
+  font-weight: 700;
+  letter-spacing: 0.03125rem;
+	color: var(--Text-Text_Light, #fbfaff);
+
+  &:hover {
+	background: var(--neutral-500, #482AA2);
+  }
+}

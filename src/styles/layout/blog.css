@@ -1,0 +1,6 @@
+.PostsGrid {
+	width: 100%;
+  display: grid;
+  gap: var(--spacing-m);
+grid-template-columns: repeat(auto-fit, minmax(242px, 1fr));
+}

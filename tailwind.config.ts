@@ -7,10 +7,11 @@ const config: Config = {
       center: true,
     },
     screens: {
-      md: '760px',
-      lg: '760px',
-      xl: '760px',
-      '2xl': '760px',
+      sm: '600px',
+      md: '728px',
+      lg: '984px',
+      xl: '1040px',
+
     },
     colors: {
       'blue-french': '#06c',

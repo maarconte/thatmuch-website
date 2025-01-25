@@ -1,0 +1,28 @@
+.tag {
+  border-radius: 0.125rem;
+  padding: var(--Spacing-XXS, 0.25rem);
+  font-weight: 700;
+  background: var(--status-disabled, #c6bde2);
+  color: var(--status-disabled-dark, #331e73);
+  letter-spacing: 0.03125rem;
+
+  &.tag--dev {
+    background: var(--status-info-light, #e7f9fb);
+    color: var(--status-info-dark, #065458);
+  }
+
+  &.tag--design {
+    background: var(--status-warning-light, #fff9e6);
+    color: var(--status-warning-dark, #6a5300);
+  }
+
+  &.tag--com {
+    background: var(--status-error-light, #fcecf0);
+    color: var(--status-error-dark, #5d1a2a);
+  }
+
+  &.tag--proj {
+    background: var(--status-success-light, #f5fcf0);
+    color: var(--status-success-dark, #4f792d);
+  }
+}

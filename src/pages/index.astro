@@ -2,6 +2,10 @@
 import BlogLayout from "@/layouts/blog-layout.astro";
 import { wpquery } from "../data/wordpress";
 import { siteConfig } from "@/site.config";
+import PostCard from "@/components/post-card.astro";
+import Button from "@/components/atoms/button/button.astro";
+import "../styles/layout/blog.css";
+
 const data = await wpquery({
   query: `
       query getAllPosts {
@@ -23,12 +27,12 @@ const data = await wpquery({
                 name
               }
             }
-          }
-        }
-        categories {
+                      categories {
           nodes {
             slug
             name
+          }
+        }
           }
         }
       }
@@ -41,26 +45,40 @@ const title = `${siteConfig.title} - Marconte !`;
 <BlogLayout
   author={siteConfig.author}
   description={siteConfig.description}
-  title="Le blog de l'équipage"
+  title="Thatmuch - Le blog de l'équipage"
 >
   <section slot="posts">
-    {
-      data.posts.nodes.map((post: any) => {
-        return (
-          <div>
-            <h2>{post.title}</h2>
-            {post?.featuredImage?.node && (
-              <img
-                src={post.featuredImage.node.mediaItemUrl}
-                alt={post.featuredImage.node.altText}
+    <h2>Catégories</h2>
+    <div class="flex flex-wrap gap-4">
+      <a class="bg-blue-french text-white px-4 py-2 rounded-lg" href="">Tout</a>
+      {
+        data.posts.nodes.map((post: any) => {
+          return (
+            <a
+              href={`/blog/${post.categories.nodes[0].slug}`}
+              class="bg-blue-french text-white px-4 py-2 rounded-lg"
+            >
+              {post.categories.nodes[0].name}
+            </a>
+          );
+        })
+      }
+    </div>
+    <div class="w-100 flex flex-col items-center gap-8">
+      <div class="PostsGrid">
+        {
+          data.posts.nodes.slice(0, 8).map((post: any) => {
+            return (
+              <PostCard
+                title={post.title}
+                category={post?.categories?.nodes[0]}
+                url={`/blog/${post.slug}`}
               />
-            )}
-            <Fragment set:html={post.excerpt} />
-            <p>Author: {post.author.node.name}</p>
-            <a href={`/blog/${post.slug}`}>Read more</a>
-          </div>
-        );
-      })
-    }
+            );
+          })
+        }
+      </div>
+      <Button label="Tous les articles" />
+    </div>
   </section>
 </BlogLayout>

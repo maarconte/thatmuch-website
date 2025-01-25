@@ -1,0 +1,11 @@
+---
+import "./style.css";
+type ButtonProps = {
+  label: string;
+  className: string;
+};
+
+const { label, className } = Astro.props as ButtonProps;
+---
+
+<button class={`btn ${className}`}>{label}</button>

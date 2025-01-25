@@ -1,0 +1,77 @@
+---
+import { Image, Picture } from "astro:assets";
+import blogPlaceholderDev01 from "../assets/images/blog-placeholder-dev--01.png";
+import blogPlaceholderDev02 from "../assets/images/blog-placeholder-dev--02.png";
+import blogPlaceholderDev03 from "../assets/images/blog-placeholder-dev--03.png";
+import blogPlaceholderDev04 from "../assets/images/blog-placeholder-dev--04.png";
+import blogPlaceholderDesign01 from "../assets/images/blog-placeholder-design--01.png";
+import blogPlaceholderDesign02 from "../assets/images/blog-placeholder-design--02.png";
+import blogPlaceholderDesign03 from "../assets/images/blog-placeholder-design--03.png";
+import blogPlaceholderDesign04 from "../assets/images/blog-placeholder-design--04.png";
+import blogPlaceholderProj01 from "../assets/images/blog-placeholder-proj--01.png";
+import blogPlaceholderProj02 from "../assets/images/blog-placeholder-proj--02.png";
+import blogPlaceholderProj03 from "../assets/images/blog-placeholder-proj--03.png";
+import blogPlaceholderProj04 from "../assets/images/blog-placeholder-proj--04.png";
+import blogPlaceholderCom01 from "../assets/images/blog-placeholder-com--01.png";
+import blogPlaceholderCom02 from "../assets/images/blog-placeholder-com--02.png";
+import blogPlaceholderCom03 from "../assets/images/blog-placeholder-com--03.png";
+import blogPlaceholderCom04 from "../assets/images/blog-placeholder-com--04.png";
+
+type PostCardProps = {
+  title: string;
+  category: {
+    name: string;
+    slug: string;
+  };
+  url: string;
+};
+
+const { title, category, url } = Astro.props as PostCardProps;
+
+const images: any = {
+  dev: [
+    blogPlaceholderDev01,
+    blogPlaceholderDev02,
+    blogPlaceholderDev03,
+    blogPlaceholderDev04,
+  ],
+  design: [
+    blogPlaceholderDesign01,
+    blogPlaceholderDesign02,
+    blogPlaceholderDesign03,
+    blogPlaceholderDesign04,
+  ],
+  proj: [
+    blogPlaceholderProj01,
+    blogPlaceholderProj02,
+    blogPlaceholderProj03,
+    blogPlaceholderProj04,
+  ],
+  com: [
+    blogPlaceholderCom01,
+    blogPlaceholderCom02,
+    blogPlaceholderCom03,
+    blogPlaceholderCom04,
+  ],
+  coaching: [
+    blogPlaceholderCom01,
+    blogPlaceholderCom02,
+    blogPlaceholderCom03,
+    blogPlaceholderCom04,
+  ],
+};
+---
+
+<article>
+  <a href={url}>
+    <Picture
+      src={images[category?.slug][Math.floor(Math.random() * 4)]}
+      alt={`Image de la catégorie ${category?.name}`}
+      formats={["png", "webp"]}
+      class="mb-4"
+    />
+  </a>
+
+  <span class={`tag tag--${category?.slug} mb-4`}>{category?.name}</span>
+  <h3 class="font-normal"><a href={url}>{title}</a></h3>
+</article>

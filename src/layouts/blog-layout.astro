@@ -16,7 +16,7 @@ const { author, description, slug, title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <Metadata
       author={author}
@@ -28,7 +28,7 @@ const { author, description, slug, title } = Astro.props;
   </head>
   <body class="">
     <Header />
-    <main class="container flex flex-col min-h-screen">
+    <main class="container flex flex-col min-h-screen gap-14">
       <h1>{title}</h1>
       <slot name="posts" />
     </main>
