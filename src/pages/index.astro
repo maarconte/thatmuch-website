@@ -5,7 +5,7 @@ import { siteConfig } from "@/site.config";
 import PostCard from "@/components/post-card.astro";
 import Button from "@/components/atoms/button/button.astro";
 import "../styles/layout/blog.css";
-
+import BlogCategoryFilter from "@/components/BlogCategoryFilter.jsx";
 const data = await wpquery({
   query: `
       query getAllPosts {
@@ -40,6 +40,26 @@ const data = await wpquery({
 });
 
 const title = `${siteConfig.title} - Marconte !`;
+const categories = [
+  ...new Set(
+    data.posts.nodes.flatMap((post: any) =>
+      post.categories.nodes.map((category: any) => category.name)
+    )
+  ),
+];
+
+let selectedCategory: string = ""; // State variable to store selected category
+
+function filterPosts(category: string) {
+  selectedCategory = category;
+  return data.posts.nodes.filter((post: any) =>
+    post.categories.nodes.some((cat: any) => cat?.slug === category)
+  );
+}
+
+const filteredPosts = selectedCategory
+  ? filterPosts(selectedCategory)
+  : data.posts.nodes;
 ---
 
 <BlogLayout
@@ -49,36 +69,39 @@ const title = `${siteConfig.title} - Marconte !`;
 >
   <section slot="posts">
     <h2>Catégories</h2>
-    <div class="flex flex-wrap gap-4">
-      <a class="bg-blue-french text-white px-4 py-2 rounded-lg" href="">Tout</a>
+    <div class="flex flex-wrap gap-4 mb-6">
+      {/* All Posts Button */}
+      <button
+        class={`px-4 py-2 rounded-lg ${!selectedCategory ? "bg-blue-600 text-white" : "bg-blue-200"}`}
+        onclick={(selectedCategory = "")}
+      >
+        Tous les articles
+      </button>
+
+      {/* Category Buttons */}
       {
-        data.posts.nodes.map((post: any) => {
-          return (
-            <a
-              href={`/blog/${post.categories.nodes[0].slug}`}
-              class="bg-blue-french text-white px-4 py-2 rounded-lg"
-            >
-              {post.categories.nodes[0].name}
-            </a>
-          );
-        })
+        categories.map((category: any) => (
+          <button
+            class={`px-4 py-2 rounded-lg ${selectedCategory === category ? "bg-blue-600 text-white" : "bg-blue-200"}`}
+            onclick={(selectedCategory = category)}
+          >
+            {category}
+          </button>
+        ))
       }
-    </div>
-    <div class="w-100 flex flex-col items-center gap-8">
       <div class="PostsGrid">
         {
-          data.posts.nodes.slice(0, 8).map((post: any) => {
-            return (
+          filteredPosts
+            .slice(0, 8)
+            .map((post: any) => (
               <PostCard
                 title={post.title}
                 category={post?.categories?.nodes[0]}
                 url={`/blog/${post.slug}`}
               />
-            );
-          })
+            ))
         }
       </div>
-      <Button label="Tous les articles" />
     </div>
   </section>
 </BlogLayout>
