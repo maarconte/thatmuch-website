@@ -1,37 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import PostCard from "@/components/post-card.astro";
+import PostCard from "./PostCard";
 
-const BlogCategoryFilter = ({ posts }) => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+const BlogCategoryFilter = ({ posts, categories }) => {
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [filteredPosts, setFilteredPosts] = useState(posts);
 
-  // Extract unique categories
-  const categories = [
-    ...new Set(
-      posts.flatMap((post) =>
-        post.categories.nodes.map((category) => category.name)
-      )
-    ),
-  ];
-
-  // Filter posts based on selected category
-  const filteredPosts = selectedCategory
-    ? posts.filter((post) =>
-        post.categories.nodes.some(
-          (category) => category.name === selectedCategory
-        )
-      )
-    : posts;
+  useEffect(() => {
+    setFilteredPosts(
+      selectedCategory
+        ? posts.filter((post) =>
+            post.categories.nodes.some((cat) => cat.name === selectedCategory)
+          )
+        : posts
+    );
+    console.log(selectedCategory);
+  }, [selectedCategory]);
 
   return (
     <div>
+      <h2>Catégories</h2>
       <div className="flex flex-wrap gap-4 mb-6">
         {/* All Posts Button */}
         <button
           className={`px-4 py-2 rounded-lg ${
-            !selectedCategory ? "bg-blue-600 text-white" : "bg-blue-200"
+            !selectedCategory ? "bg-blue-600" : "bg-blue-200"
           }`}
-          onClick={() => setSelectedCategory(null)}
+          onClick={() => setSelectedCategory("")}
         >
           Tous les articles
         </button>
@@ -41,9 +36,7 @@ const BlogCategoryFilter = ({ posts }) => {
           <button
             key={category}
             className={`px-4 py-2 rounded-lg ${
-              selectedCategory === category
-                ? "bg-blue-600 text-white"
-                : "bg-blue-200"
+              selectedCategory === category ? "bg-blue-600 " : "bg-blue-200"
             }`}
             onClick={() => setSelectedCategory(category)}
           >
@@ -52,9 +45,10 @@ const BlogCategoryFilter = ({ posts }) => {
         ))}
       </div>
 
-      <div class="PostsGrid">
+      <div className="PostsGrid">
         {filteredPosts.slice(0, 8).map((post) => (
           <PostCard
+            key={post.slug}
             title={post.title}
             category={post?.categories?.nodes[0]}
             url={`/blog/${post.slug}`}
