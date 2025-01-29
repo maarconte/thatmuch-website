@@ -1,7 +1,8 @@
+import "./PostCard.scss";
+
 import React from "react";
 
 type PostCardProps = {
-  key: string;
   title: string;
   category: {
     slug: string;
@@ -10,12 +11,12 @@ type PostCardProps = {
   url: string;
 };
 
-export default function PostCard({ key, title, category, url }: PostCardProps) {
+export default function PostCard({ title, category, url }: PostCardProps) {
   const imageUrl = `/images/blogPlaceholders/blog-placeholder-${
     category?.slug
   }--0${Math.floor(Math.random() * 4) + 1}.png`;
   return (
-    <article>
+    <article className="PostCard">
       <a href={url}>
         <img
           src={imageUrl}
@@ -24,10 +25,8 @@ export default function PostCard({ key, title, category, url }: PostCardProps) {
         />
       </a>
 
-      <span className={`tag tag--${category?.slug} mb-4`}>
-        {category?.name}
-      </span>
-      <h3 className="font-normal">
+      <span className={`tag tag--${category?.slug}`}>{category?.name}</span>
+      <h3 className="font-normal mt-4">
         <a href={url}>{title}</a>
       </h3>
     </article>

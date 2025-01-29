@@ -5,7 +5,7 @@ import { siteConfig } from "@/site.config";
 import PostCard from "@/components/post-card.astro";
 import Button from "@/components/atoms/button/button.astro";
 import "../styles/layout/blog.css";
-import BlogCategoryFilter from "@/components/BlogCategoryFilter.jsx";
+import BlogCategoryFilter from "@/components/BlogCategoryFilter/BlogCategoryFilter.jsx";
 
 const data = await wpquery({
   query: `

@@ -1,0 +1,19 @@
+.BlogCategoryFilter {
+  &_list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: var(--var-spacing-m);
+    justify-content: center;
+    &_button {
+      padding: var(--spacing-s, 1rem);
+      border-bottom: 2px solid var(--text-color-default, #1e1244);
+      transformation: all 0.3s;
+      &:hover,
+      &.active {
+        border-radius: var(--radius-M, 0.5rem) var(--radius-M, 0.5rem) 0rem 0rem;
+        border-bottom: 2px solid var(--surface-default, #edeaf6);
+        background: var(--surface-default, #edeaf6);
+      }
+    }
+  }
+}
